@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class Interaction : MonoBehaviour
@@ -47,6 +48,18 @@ public class Interaction : MonoBehaviour
     {
         text.gameObject.SetActive(true);
         text.text = itemObject.InteractPrompt();
+    }
+
+    public void OnInteraction(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started && interactGameObject != null && interactGameObject.CompareTag("Item"))
+        {
+            itemObject.OnUse();
+            interactGameObject = null;
+            itemObject = null;
+            text.gameObject.SetActive(false);
+
+        }
     }
 }
 

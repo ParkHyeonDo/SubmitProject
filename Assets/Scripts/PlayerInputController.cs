@@ -7,7 +7,10 @@ using UnityEngine.InputSystem;
 public class PlayerInputController : MonoBehaviour
 {
     public float moveSpeed;
+    public float baseMoveSpeed;
     public float jumpPower;
+    private float duration = 5;
+    private float hasTime;
     private Vector2 moveInput;
     public LayerMask mask;
 
@@ -31,6 +34,7 @@ public class PlayerInputController : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        baseMoveSpeed = moveSpeed;
     }
 
     // Update is called once per frame
@@ -40,6 +44,20 @@ public class PlayerInputController : MonoBehaviour
         {
             CameraLook();
         }
+
+        if (moveSpeed > baseMoveSpeed) 
+        {
+            hasTime += Time.deltaTime;
+            if (hasTime > duration) 
+            {
+                UnUse();
+            }
+        }
+    }
+
+    private void UnUse()
+    {
+        moveSpeed = baseMoveSpeed;
     }
 
     private void FixedUpdate()
@@ -91,4 +109,6 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
+
+    
 }
